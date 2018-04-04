@@ -1,5 +1,6 @@
 package teefyl.wastlee;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,7 +23,6 @@ import android.widget.Toast;
 import android.app.Activity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -31,13 +31,12 @@ public class MainActivity extends AppCompatActivity
     private Button buttonScan;
     static DBManager manager;
     static Food_Notifications notifications;
-    //private Button btn;
+
     @RequiresApi(26)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final Activity activity = this;
@@ -45,14 +44,16 @@ public class MainActivity extends AppCompatActivity
         Date date = new Date();
         String todaysdate= new SimpleDateFormat("dd/MM/yyyy").format(date);
         Food_Notifications notifications = new Food_Notifications(todaysdate, this);
+
         String[] foods = new String[1];
                 if (notifications.getTodaysFoods(notifications).length !=0) {
                     foods = notifications.getTodaysFoods(notifications);
                     notifications.send_todays_notifs(foods);
                 }
                 else
-                    foods[0] = "No foods expire today yay!";
-        System.out.println("TODAYS FIRST FOOD BRUH"+ foods[0]);
+                    foods[0] = "  No foods expire today yay!";
+        //System.out.println("TODAYS FIRST FOOD BRUH"+ foods[0]);
+
 
         buttonScan = (Button) findViewById(R.id.buttonScan);
 
@@ -65,9 +66,6 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        //btn = (Button)findViewById(R.id.button1);
-        //DELETED NOTIFICATION CODE HERE
 
         buttonScan.setOnClickListener(new View.OnClickListener() {
             @Override

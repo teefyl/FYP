@@ -17,7 +17,7 @@ import java.util.List;
  * Created by Laura on 01/03/2018.
  */
 
-public class Food_Notifications extends AppCompatActivity {
+public class Food_Notifications extends AppCompatActivity{
 
     private String today;
     private Context mContext;
@@ -34,7 +34,7 @@ public class Food_Notifications extends AppCompatActivity {
         items = MainActivity.manager.searchItems("");
         if (items == null || items.length == 0) {
             list = null;
-            Toast.makeText(getApplicationContext(), "Database contains no food", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Database contains no food", Toast.LENGTH_LONG).show();
         } else {
             list = new String[items.length];
             for (int i = 0; i < items.length; i++) {
@@ -68,8 +68,6 @@ public class Food_Notifications extends AppCompatActivity {
 
     @RequiresApi(26)
     public void send_todays_notifs(String[] todaysfoods){
-        //protected void onCreate(String[] todaysfoods, Bundle savedInstanceState) {
-        //super.onCreate(savedInstanceState);
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
         String id1 = "channel_01";
         CharSequence name = "CHANNEL ONE";
@@ -88,12 +86,13 @@ public class Food_Notifications extends AppCompatActivity {
         Intent MyIntent = new Intent(Intent.ACTION_VIEW);
         PendingIntent StartIntent = PendingIntent.getActivity(mContext.getApplicationContext(), 0, MyIntent, PendingIntent.FLAG_CANCEL_CURRENT);
         Notification.Builder builder = new Notification.Builder(mContext.getApplicationContext(), id1);
-
+        long when = System.currentTimeMillis();
         for(int i=0; i<todaysfoods.length; i++) {
             builder.setSmallIcon(R.drawable.notification_icon)
                     .setContentTitle(todaysfoods[i])
                     .setContentText(MyNotificationText)
-                    .setContentIntent(StartIntent);
+                    .setContentIntent(StartIntent)
+                    .setAutoCancel(true).setWhen(when);
             builder.setChannelId(id1);
 
             Notification notification = builder.build();

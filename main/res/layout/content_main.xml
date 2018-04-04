@@ -30,15 +30,4 @@
         android:layout_centerHorizontal="true"
         android:onClick="openForm" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="17dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Create Notification"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true">
-    </Button>
-
 </RelativeLayout>

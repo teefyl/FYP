@@ -67,7 +67,7 @@ public class DBManager extends SQLiteOpenHelper {
     }
     //returns object from name
     public FoodItem getEquipmentItem(String item) {
-        FoodItem equipment;
+        FoodItem food;
         String query = "SELECT * FROM " + TABLE_EQUIPMENT + " WHERE " + COLUMN_BARCODE + "=" + "'"+item+"'";
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(query, null);
@@ -76,12 +76,12 @@ public class DBManager extends SQLiteOpenHelper {
             return null;
         }
 
-        equipment = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
+        food = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
                 c.getString(c.getColumnIndex(COLUMN_BARCODE)),
                 c.getString(c.getColumnIndex(COLUMN_EXPIRY))
         );
         c.close();
-        return equipment;
+        return food;
     }
 
     //Function to check if an equipment item is already in the DB
@@ -98,41 +98,21 @@ public class DBManager extends SQLiteOpenHelper {
     public FoodItem checkBarcode(String barcode){
         String query = "SELECT * FROM " + TABLE_EQUIPMENT + " WHERE " + COLUMN_BARCODE + " = '"+barcode+"'";
         SQLiteDatabase db = getReadableDatabase();
-        FoodItem equipment;
+        FoodItem food;
         Cursor c = db.rawQuery(query,null);
         if(!c.moveToFirst()){
             c.close();
             return null;
         }
         else{
-            equipment = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
+            food = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
                     c.getString(c.getColumnIndex(COLUMN_BARCODE)),
                     c.getString(c.getColumnIndex(COLUMN_EXPIRY))
             );
             c.close();
-            return equipment;
+            return food;
         }
     }
-
-    public FoodItem checkDate(String date){
-        String query = "SELECT * FROM " + TABLE_EQUIPMENT + " WHERE " + COLUMN_EXPIRY + " = '"+date+"'";
-        SQLiteDatabase db = getReadableDatabase();
-        FoodItem equipment;
-        Cursor c = db.rawQuery(query,null);
-        if(!c.moveToFirst()){
-            c.close();
-            return null;
-        }
-        else{
-            equipment = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
-                    c.getString(c.getColumnIndex(COLUMN_BARCODE)),
-                    c.getString(c.getColumnIndex(COLUMN_EXPIRY))
-            );
-            c.close();
-            return equipment;
-        }
-    }
-
 
 
     public FoodItem[] searchItems(String search){
