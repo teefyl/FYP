@@ -138,6 +138,10 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }
+        else if (id == R.id.nav_tip) {
+            Intent intent = new Intent(MainActivity.this, TipOfTheDay.class);
+            startActivity(intent);
+        }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

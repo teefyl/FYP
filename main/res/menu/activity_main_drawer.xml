@@ -15,6 +15,10 @@
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="Settings" />
+        <item
+            android:id="@+id/nav_tip"
+            android:icon="@android:drawable/ic_menu_day"
+            android:title="Tip of the Day" />
 
 
     </group>
