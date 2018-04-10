@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class EditActivity extends AppCompatActivity {
@@ -42,12 +44,14 @@ public class EditActivity extends AppCompatActivity {
                 if(equipmentName.getText()==null){
                     Toast.makeText(EditActivity.this,"NOPE",Toast.LENGTH_LONG).show();
                 }
+                String equipmentString = equipmentName.getText().toString();
                 String expiryString = expiry.getText().toString();
-                String nameString = equipmentName.getText().toString();
-                //test item to add
+                String reminderString = getIntent().getStringExtra("reminder_date");
+                String dateAdded = getIntent().getStringExtra("date_added");
                 ID = getIntent().getStringExtra("barcode");
+                FoodItem e = new FoodItem(equipmentString, ID , expiryString, reminderString, dateAdded);
 
-                FoodItem e = new FoodItem(nameString,ID,expiryString);
+
                 MainActivity.manager.editEquipment(e);
                 Intent i = new Intent(EditActivity.this, FoodListActivity.class);
                 i.putExtra("barcode",e.getBarcodeID());

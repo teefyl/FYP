@@ -1,14 +1,7 @@
 package teefyl.wastlee;
 
-import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.NotificationCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -30,30 +23,32 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private Button buttonScan;
     static DBManager manager;
-    static Food_Notifications notifications;
 
     @RequiresApi(26)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        manager = new DBManager(this,null);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final Activity activity = this;
-        manager = new DBManager(this,null,null,1);
+
+
         Date date = new Date();
         String todaysdate= new SimpleDateFormat("dd/MM/yyyy").format(date);
         Food_Notifications notifications = new Food_Notifications(todaysdate, this);
+        String[] foods;
 
-        String[] foods = new String[1];
-                if (notifications.getTodaysFoods(notifications).length !=0) {
-                    foods = notifications.getTodaysFoods(notifications);
-                    notifications.send_todays_notifs(foods);
-                }
-                else
-                    foods[0] = "  No foods expire today yay!";
-        //System.out.println("TODAYS FIRST FOOD BRUH"+ foods[0]);
 
+        if (notifications.getTodaysFoods(notifications).length !=0) {
+            foods = notifications.getTodaysFoods(notifications);
+            notifications.send_todays_notifs(foods);
+        }
+        if (notifications.getTodaysReminders(notifications).length !=0) {
+            foods = notifications.getTodaysReminders(notifications);
+            notifications.send_todays_reminders(foods);
+        }
 
         buttonScan = (Button) findViewById(R.id.buttonScan);
 

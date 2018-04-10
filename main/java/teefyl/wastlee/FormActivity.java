@@ -9,10 +9,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class FormActivity extends AppCompatActivity {
     private EditText equipmentName;
     private EditText expiry;
+    private EditText reminder;
     Button createButton;
 
     @Override
@@ -25,6 +32,7 @@ public class FormActivity extends AppCompatActivity {
         setupActionBar();
         equipmentName =(EditText) findViewById(R.id.foodText);
         expiry =(EditText) findViewById(R.id.expiryDate);
+        reminder= (EditText) findViewById(R.id.reminderDate);
         createButton = (Button)findViewById(R.id.addFood);
 
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -32,18 +40,25 @@ public class FormActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String equipmentString = equipmentName.getText().toString();
                 String expiryString = expiry.getText().toString();
+                String reminderString = reminder.getText().toString();
                 //String containing barcode name passed from scanner activity
                 String barcodeID = getIntent().getStringExtra("bID");
+                Date date = new Date();
+                String dateAdded = new SimpleDateFormat("dd/MM/yyyy").format(date);
                 //test item to add
-                FoodItem e = new FoodItem(equipmentString,barcodeID,expiryString);
-
+                FoodItem e = new FoodItem(equipmentString,barcodeID, expiryString, reminderString, dateAdded);
+                int daysToAdd = Integer.parseInt(reminderString);
+                String dateNew = addDates(dateAdded, daysToAdd);
                 MainActivity.manager.addEquipment(e);
+                Toast.makeText(getBaseContext(), "You will be reminded about this on "+dateNew , Toast.LENGTH_SHORT ).show();
+
                 Intent i = new Intent(FormActivity.this,FoodListActivity.class);
                 i.putExtra("barcode",e.getBarcodeID());
                 startActivity(i);
             }
 
         });
+
     }
 
 
@@ -65,5 +80,30 @@ public class FormActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public String addDates(String date, int daysToAdd)
+    {
+        String newDate = "00/00/0000";
+        String[] dmy = date.split("[/]");
+        //dmy[0] = day dmy[1]=month dmy[2]= year
+        java.util.Date utilDate = null;
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            utilDate = formatter.parse(date);
+            System.out.println("utilDate:" + utilDate);
+        }catch(ParseException e) {
+            System.out.println(e.toString());
+            e.printStackTrace();
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar c = Calendar.getInstance();
+        c.setTime(utilDate); // Now use today date.
+        c.add(Calendar.DATE, daysToAdd); // Adding days
+        newDate = sdf.format(c.getTime());
+        System.out.println("THIS IS THE DATE YOU WANT TO BE REMINDED ON RIGHT "+newDate);
+
+        return newDate;
     }
 }

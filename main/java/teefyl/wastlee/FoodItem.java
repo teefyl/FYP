@@ -1,7 +1,6 @@
 package teefyl.wastlee;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.IBinder;
@@ -14,7 +13,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.util.Scanner;
 
 /**
  * Created by Laura on 27/01/2018.
@@ -24,6 +22,8 @@ public class FoodItem extends Service {
     private String name;
     private String barcodeId;
     private String expiryDate;
+    private String reminderDate;
+    private String dateAdded;
     //private String category;
 
     @Override
@@ -31,11 +31,19 @@ public class FoodItem extends Service {
         return null;
     }
 
-    FoodItem(String name, String barcodeContents, String expiry ){//String foodCategory){
+    FoodItem(String name, String barcodeContents, String expiry, String reminder, String date ){//String foodCategory){
         barcodeId = barcodeContents;
         expiryDate = expiry;
         this.name=name;
+        reminderDate = reminder;
+        dateAdded = date;
+
         // category = foodCategory;
+    }
+
+    public String getDateAdded(){
+        return dateAdded;
+
     }
 
        public String getData() {
@@ -46,13 +54,17 @@ public class FoodItem extends Service {
 
 
     public String getName() {
-        MyTask gettingUrls = new MyTask(this);
+        MyTask gettingUrls = new MyTask();
         gettingUrls.execute();
         return name;
     }
 
     public String getExpiryDate() {
         return expiryDate;
+    }
+
+    public String getReminderDate() {
+        return reminderDate;
     }
 
     public String getBarcodeID() {
@@ -65,13 +77,6 @@ public class FoodItem extends Service {
     }
 
     private class MyTask extends AsyncTask<Void, Void, String> {
-        private Service myContextRef;
-
-
-        public MyTask (Service myContextRef) {
-            this.myContextRef = myContextRef;
-        }
-
         @Override
         protected String doInBackground(Void... params) {
             String title = "";
@@ -106,17 +111,6 @@ public class FoodItem extends Service {
 
                 if (!url.startsWith("http")) {
                     continue; // Ads/news/etc.
-                }
-                String filename = "urlnames";
-                FileOutputStream outputStream;
-
-                try {
-                    outputStream = myContextRef.openFileOutput(filename, myContextRef.MODE_PRIVATE);
-
-                    outputStream.write(title.getBytes());
-                    outputStream.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 System.out.println("Food name of food with barcode "+barcodeId+" : " + title);
                 //PrintStream fileStream = new PrintStream("urlnames.txt");

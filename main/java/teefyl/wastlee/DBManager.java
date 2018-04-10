@@ -3,11 +3,11 @@ package teefyl.wastlee;
 /**
  * Created by Laura on 27/01/2018.
  */
-        import android.content.ContentValues;
-        import android.content.Context;
-        import android.database.Cursor;
-        import android.database.sqlite.SQLiteDatabase;
-        import android.database.sqlite.SQLiteOpenHelper;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 
 public class DBManager extends SQLiteOpenHelper {
@@ -17,9 +17,11 @@ public class DBManager extends SQLiteOpenHelper {
     private static final String COLUMN_EQUIPMENT_NAME = "equipment_name";
     private static final String COLUMN_BARCODE = "barcode";
     private static final String COLUMN_EXPIRY = "expiry_date";
+    private static final String COLUMN_REMINDER = "reminder_date";
+    private static final String COLUMN_DATEADDED = "date_added";
 
 
-    public DBManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
+    public DBManager(Context context, SQLiteDatabase.CursorFactory factory){
         super(context,DATABASE_NAME,factory,DATABASE_VERSION);
     }
 
@@ -28,7 +30,10 @@ public class DBManager extends SQLiteOpenHelper {
         String query2 = "CREATE TABLE "+TABLE_EQUIPMENT+ "("+
                 " INT, " +
                 COLUMN_EQUIPMENT_NAME+" TEXT, "
-                +COLUMN_BARCODE+" TEXT, "+COLUMN_EXPIRY+" INT);" ;
+                +COLUMN_BARCODE+" TEXT, "
+                +COLUMN_EXPIRY+" INT, "
+                +COLUMN_REMINDER+" TEXT, "
+                +COLUMN_DATEADDED+" TEXT );" ;
         db.execSQL(query2);
     }
 
@@ -78,7 +83,9 @@ public class DBManager extends SQLiteOpenHelper {
 
         food = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
                 c.getString(c.getColumnIndex(COLUMN_BARCODE)),
-                c.getString(c.getColumnIndex(COLUMN_EXPIRY))
+                c.getString(c.getColumnIndex(COLUMN_EXPIRY)),
+                c.getString(c.getColumnIndex(COLUMN_REMINDER)),
+                c.getString(c.getColumnIndex(COLUMN_DATEADDED))
         );
         c.close();
         return food;
@@ -107,7 +114,9 @@ public class DBManager extends SQLiteOpenHelper {
         else{
             food = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
                     c.getString(c.getColumnIndex(COLUMN_BARCODE)),
-                    c.getString(c.getColumnIndex(COLUMN_EXPIRY))
+                    c.getString(c.getColumnIndex(COLUMN_EXPIRY)),
+                    c.getString(c.getColumnIndex(COLUMN_REMINDER)),
+                    c.getString(c.getColumnIndex(COLUMN_DATEADDED))
             );
             c.close();
             return food;
@@ -129,8 +138,9 @@ public class DBManager extends SQLiteOpenHelper {
             for(int i=0;i<items.length;i++){
                 items[i] = new FoodItem(c.getString(c.getColumnIndex(COLUMN_EQUIPMENT_NAME)),
                         c.getString(c.getColumnIndex(COLUMN_BARCODE)),
-                        c.getString(c.getColumnIndex(COLUMN_EXPIRY))
-
+                        c.getString(c.getColumnIndex(COLUMN_EXPIRY)),
+                        c.getString(c.getColumnIndex(COLUMN_REMINDER)),
+                        c.getString(c.getColumnIndex(COLUMN_DATEADDED))
                 );
                 c.moveToNext();
             }
@@ -139,5 +149,3 @@ public class DBManager extends SQLiteOpenHelper {
     }
 
 }
-
-
