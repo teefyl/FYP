@@ -1,5 +1,6 @@
 package teefyl.wastlee;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.View;
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
         else if (id == R.id.nav_articles) {
-            Intent intent = new Intent(MainActivity.this, ArticlesActivity.class);
+            Intent intent = new Intent(MainActivity.this, ShowPopUpWindow.class);
             startActivity(intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

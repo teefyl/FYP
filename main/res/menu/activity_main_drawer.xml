@@ -13,11 +13,11 @@
             android:title="Charities" />
         <item
             android:id="@+id/nav_tip"
-            android:icon="@android:drawable/ic_menu_day"
+            android:icon="@android:drawable/star_big_off"
             android:title="Tip of the Day" />
         <item
             android:id="@+id/nav_articles"
-            android:icon="@drawable/ic_dialog_close_dark"
+            android:icon="?android:attr/actionModeFindDrawable"
             android:title="Articles" />
         <item
             android:id="@+id/nav_settings"

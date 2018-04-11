@@ -54,8 +54,6 @@ public class FoodItem extends Service {
 
 
     public String getName() {
-        MyTask gettingUrls = new MyTask();
-        gettingUrls.execute();
         return name;
     }
 
@@ -76,52 +74,6 @@ public class FoodItem extends Service {
         return "Barcode ID: " + this.barcodeId + "\n" + "Food Name: " + name + "\n" +"Expiry Date: " + expiryDate + "\n";
     }
 
-    private class MyTask extends AsyncTask<Void, Void, String> {
-        @Override
-        protected String doInBackground(Void... params) {
-            String title = "";
-            String google = "http://www.google.com/search?q=";
-            String search = getBarcodeID(); //your word to be searched on google
-            String userAgent = "ExampleBot 1.0 (+http://example.com/bot)";
-            String charset = "UTF-8";
-            Elements links = null;
 
-            try {
-                links = Jsoup.connect(google +
-                        URLEncoder.encode(search, charset)).
-                        userAgent(userAgent).get().select(".g>.r>a");
-
-            } catch (UnsupportedEncodingException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            } catch (IOException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
-            for (Element link : links) {
-                title = link.text();
-                String url = link.absUrl("href");
-                try {
-                    url = URLDecoder.decode(url.substring(url.indexOf('=') +
-                            1, url.indexOf('&')), "UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-                if (!url.startsWith("http")) {
-                    continue; // Ads/news/etc.
-                }
-                System.out.println("Food name of food with barcode "+barcodeId+" : " + title);
-                //PrintStream fileStream = new PrintStream("urlnames.txt");
-                //System.setOut(fileStream);
-
-
-            }
-            return title;
-        }
-
-
-    }
 
 }

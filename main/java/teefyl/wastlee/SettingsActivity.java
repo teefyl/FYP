@@ -20,7 +20,6 @@ import static teefyl.wastlee.R.string.view;
 public class SettingsActivity extends AppCompatActivity {
     private TextView switchStatus;
     private Switch mySwitch;
-    private Button mapsButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,12 +27,7 @@ public class SettingsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
-        mapsButton = (Button) findViewById(R.id.mapsButton);
-        mapsButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                buttonActivity(v);
-            }
-        });
+
         switchStatus = (TextView) findViewById(R.id.switch1);
         mySwitch = (Switch) findViewById(R.id.switch1);
         //set the switch to ON

@@ -67,6 +67,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         LatLng holyCross = new LatLng(53.364486, -6.253315);
         LatLng human = new LatLng(53.297182, -6.247024 );
 
+        //Cork
+        LatLng simon = new LatLng(51.899545, -8.463658);
+        LatLng missions = new LatLng(51.898586, -8.466383);
+        LatLng fcCork = new LatLng(51.899378, -8.349795);
 
         mMap.addMarker(new MarkerOptions().position(curLoc).title("Current Location").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mMap.addMarker(new MarkerOptions().position(crossCare).title("CrossCare Food Bank").snippet("97 Lagan Road\n" +
@@ -81,6 +85,12 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(holyCross).title("Holy Cross College").snippet("Clonliffe 3, County Dublin"));
         mMap.addMarker(new MarkerOptions().position(capuchin).title("Capuchin Day Centre").snippet("29 Bow St, Arran Quay, Dublin 7"));
         mMap.addMarker(new MarkerOptions().position(human).title("Human Appeal International").snippet("1, Frankfort Centre, Dundrum Rd, Dundrum, Dublin 14, D14 E4A4"));
+
+        //Cork
+        mMap.addMarker(new MarkerOptions().position(simon).title("Cork Simon Emergency Appeal").snippet("Anderson's Quay, Centre, Cork"));
+        mMap.addMarker(new MarkerOptions().position(missions).title("Global Missions Ireland").snippet("3 Connell St, Centre, Cork"));
+        mMap.addMarker(new MarkerOptions().position(fcCork).title("Food Cloud Hub").snippet("Unit 3, OC Commercial Park, Ballytrasna, Little Island, Cork"));
+
 
         mMap.moveCamera(CameraUpdateFactory.zoomTo(13));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(curLoc));
