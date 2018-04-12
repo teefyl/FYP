@@ -52,6 +52,13 @@
                 android:inputType="textPersonName"
                 android:layout_width="fill_parent">
             </EditText>
+            <EditText
+                android:id="@+id/editReminder"
+                android:layout_height="wrap_content"
+                android:hint="Remind me in this amount of days:"
+                android:inputType="textPersonName"
+                android:layout_width="fill_parent">
+            </EditText>
             <Button
                 android:text="Done Editing"
                 android:layout_width="match_parent"

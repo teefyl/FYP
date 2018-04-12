@@ -37,7 +37,7 @@ public class Food_Notifications extends AppCompatActivity{
         String[] list;
         items = MainActivity.manager.searchItems("");
         if (items == null || items.length == 0) {
-            list = null;
+            return null;
         } else {
             list = new String[items.length];
             for (int i = 0; i < items.length; i++) {
@@ -45,27 +45,23 @@ public class Food_Notifications extends AppCompatActivity{
             }
         }
 
-
         String[] todaysfoods = new String[0];
         int howmany = 0;
         //CHECK IF ANY OF THE FOODS HAVE TODAY's REMINDER DATE
         if (list != null) {
             List<String> foods = new ArrayList();
             for (int i = 0; i < list.length; i++) {
-                if (list[i].contains(notif.today)) { //Need to change this if statement
-
                     String[] parts = list[i].split("[*]");
                     String[] dates = parts[1].split("[$]");
                     //dates[0] = date the food was added
                     //dates[1] = the amount of days to wait after then to be notified
                     String calcDate = addDates(dates[0], Integer.parseInt(dates[1]));
-                    if(calcDate==notif.today)
+                    //calcDate is the day to be reminded on
+                    if(calcDate.equals(notif.today))
                     {
                         howmany++;
                         foods.add(parts[0]);
                     }
-                }
-
             }
             todaysfoods = new String[howmany];
             for(int j=0; howmany>0; howmany--)
@@ -153,8 +149,8 @@ public class Food_Notifications extends AppCompatActivity{
     @RequiresApi(26)
     public void send_todays_reminders(String[] todaysfoods){
         NotificationManager notificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        String id1 = "channel_01";
-        CharSequence name = "CHANNEL ONE";
+        String id1 = "channel_02";
+        CharSequence name = "CHANNEL TWO";
         String description = "NOTIFICATIONS";
         int importance = NotificationManager.IMPORTANCE_HIGH;
         NotificationChannel mChannel = new NotificationChannel(id1, name, importance);
@@ -192,7 +188,6 @@ public class Food_Notifications extends AppCompatActivity{
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
             utilDate = formatter.parse(date);
-            System.out.println("utilDate:" + utilDate);
         }catch(ParseException e) {
             System.out.println(e.toString());
             e.printStackTrace();
@@ -203,7 +198,6 @@ public class Food_Notifications extends AppCompatActivity{
         c.setTime(utilDate); // Now use today date.
         c.add(Calendar.DATE, daysToAdd); // Adding days
         newDate = sdf.format(c.getTime());
-        System.out.println("THIS IS THE DATE YOU WANT TO BE REMINDED ON RIGHT "+newDate);
 
         return newDate;
     }

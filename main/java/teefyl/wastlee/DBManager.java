@@ -66,6 +66,8 @@ public class DBManager extends SQLiteOpenHelper {
         c.put(COLUMN_EQUIPMENT_NAME,equipment.getName());
         c.put(COLUMN_BARCODE,equipment.getBarcodeID());
         c.put(COLUMN_EXPIRY,equipment.getExpiryDate());
+        c.put(COLUMN_REMINDER,equipment.getReminderDate());
+        c.put(COLUMN_DATEADDED,equipment.getDateAdded());
         SQLiteDatabase db = getWritableDatabase();
         db.insert(TABLE_EQUIPMENT,null,c);
         db.close();

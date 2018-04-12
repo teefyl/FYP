@@ -40,31 +40,30 @@ public class FormActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
-        String ID = getIntent().getStringExtra("barcode");
         equipmentName =(EditText) findViewById(R.id.foodText);
-        equipmentName.setText(getNameOnline(ID), TextView.BufferType.EDITABLE);
         expiry =(EditText) findViewById(R.id.expiryDate);
         reminder= (EditText) findViewById(R.id.reminderDate);
         createButton = (Button)findViewById(R.id.addFood);
+        String getName = getNameOnline(getIntent().getStringExtra("bID"));
+        equipmentName.setText(getName, TextView.BufferType.EDITABLE);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String equipmentString = equipmentName.getText().toString();
-                String getName = getNameOnline(getIntent().getStringExtra("bID"));
-
-                System.out.print("HERE~S THE NAME PAL "+getName);
-
                 String expiryString = expiry.getText().toString();
                 String reminderString = reminder.getText().toString();
+
                 //String containing barcode name passed from scanner activity
                 String barcodeID = getIntent().getStringExtra("bID");
+
                 Date date = new Date();
-                String dateAdded = new SimpleDateFormat("dd/MM/yyyy").format(date);
+                String todaysdate= new SimpleDateFormat("dd/MM/yyyy").format(date);
                 //test item to add
-                FoodItem e = new FoodItem(equipmentString,barcodeID, expiryString, reminderString, dateAdded);
+                FoodItem e = new FoodItem(equipmentString,barcodeID, expiryString, reminderString, todaysdate);
+
                 int daysToAdd = Integer.parseInt(reminderString);
-                String dateNew = addDates(dateAdded, daysToAdd);
+                String dateNew = addDates(todaysdate, daysToAdd);
                 MainActivity.manager.addEquipment(e);
                 Toast.makeText(getBaseContext(), "You will be reminded about this on "+dateNew , Toast.LENGTH_SHORT ).show();
 
@@ -134,7 +133,8 @@ public class FormActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                Intent intent = new Intent(FormActivity.this, MainActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

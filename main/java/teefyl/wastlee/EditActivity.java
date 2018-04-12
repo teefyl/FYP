@@ -28,6 +28,7 @@ import java.util.Date;
 public class EditActivity extends AppCompatActivity {
     private EditText equipmentName;
     private EditText expiry;
+    private EditText reminder;
     Button editButton;
     String ID;
 
@@ -40,12 +41,16 @@ public class EditActivity extends AppCompatActivity {
         setupActionBar();
 
         ID = getIntent().getStringExtra("barcode");
+
         FoodItem item = MainActivity.manager.getEquipmentItem(ID);
         equipmentName =(EditText) findViewById(R.id.editFoodName);
-        equipmentName.setText(getNameOnline(ID),TextView.BufferType.EDITABLE);
+        equipmentName.setText(item.getName(),TextView.BufferType.EDITABLE);
+        reminder= (EditText) findViewById(R.id.editReminder);
+
         expiry =(EditText) findViewById(R.id.editExpiryDate);
         expiry.setText(item.getExpiryDate(),TextView.BufferType.EDITABLE);
         editButton = (Button)findViewById(R.id.editFood);
+
 
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +60,15 @@ public class EditActivity extends AppCompatActivity {
                 }
                 String equipmentString = equipmentName.getText().toString();
                 String expiryString = expiry.getText().toString();
-                String reminderString = getIntent().getStringExtra("reminder_date");
-                String dateAdded = getIntent().getStringExtra("date_added");
-                ID = getIntent().getStringExtra("barcode");
-                FoodItem e = new FoodItem(equipmentString, ID , expiryString, reminderString, dateAdded);
+                String reminderString = reminder.getText().toString();
+
+                //String containing barcode name passed from scanner activity
+                String ID = getIntent().getStringExtra("barcode");
+
+                Date date = new Date();
+                String todaysDate= new SimpleDateFormat("dd/MM/yyyy").format(date);
+
+                FoodItem e = new FoodItem(equipmentString, ID , expiryString, reminderString, todaysDate);
 
 
                 MainActivity.manager.editEquipment(e);
@@ -82,51 +92,12 @@ public class EditActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private String getNameOnline(String barcodeId){
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 
-        StrictMode.setThreadPolicy(policy);
-        String title = "";
-        String google = "http://www.google.com/search?q=";
-        String search = barcodeId; //your word to be searched on google
-        String userAgent = "ExampleBot 1.0 (+http://example.com/bot)";
-        String charset = "UTF-8";
-        Elements links = null;
-
-        try {
-            links = Jsoup.connect(google +
-                    URLEncoder.encode(search, charset)).
-                    userAgent(userAgent).get().select(".g>.r>a");
-
-        } catch (UnsupportedEncodingException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IOException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        }
-        for (Element link : links) {
-            title = link.text();
-            String url = link.absUrl("href");
-            try {
-                url = URLDecoder.decode(url.substring(url.indexOf('=') +
-                        1, url.indexOf('&')), "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            if (!url.startsWith("http")) {
-                continue; // Ads/news/etc.
-            }
-            //System.out.println("Food name of food with barcode "+barcodeId+" : " + title);
-        }
-        return title;
-    }
 }

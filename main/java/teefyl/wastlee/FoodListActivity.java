@@ -53,10 +53,10 @@ public class FoodListActivity extends AppCompatActivity {
             ViewGroup vg = (ViewGroup) view;
             TextView tv = vg.findViewById(R.id.txtFood);
 
-            String s="";
+            String s="NADA";
             for(int i=0;i<items.length;i++){
                 if(tv.getText().toString().equals(items[i].getName()+"    " + items[i].getExpiryDate())){
-                s=items[i].toString();
+                s=items[i].toStringExtended();
                 }
             }
             Intent intentional = new Intent(FoodListActivity.this, ViewActivity.class);
@@ -68,7 +68,8 @@ public class FoodListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                Intent intent = new Intent(FoodListActivity.this, MainActivity.class);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
