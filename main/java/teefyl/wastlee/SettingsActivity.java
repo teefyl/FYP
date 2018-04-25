@@ -7,14 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.google.zxing.integration.android.IntentIntegrator;
-
-import static teefyl.wastlee.R.string.view;
 
 
 public class SettingsActivity extends AppCompatActivity {

@@ -1,6 +1,5 @@
 package teefyl.wastlee;
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.View;
