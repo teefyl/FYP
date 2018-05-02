@@ -38,14 +38,15 @@ public class MainActivity extends AppCompatActivity
         Date date = new Date();
         String todaysdate= new SimpleDateFormat("dd/MM/yyyy").format(date);
         Food_Notifications notifications = new Food_Notifications(todaysdate, this);
-        String[] foods;
+        String[] foods = notifications.getTodaysFoods(notifications);
 
 
-        if (notifications.getTodaysFoods(notifications).length !=0) {
+        if (foods.length !=0) {
             foods = notifications.getTodaysFoods(notifications);
             notifications.send_todays_notifs(foods);
         }
-        if (notifications.getTodaysReminders(notifications).length !=0) {
+        foods=notifications.getTodaysReminders(notifications);
+        if (foods!=null) {
             foods = notifications.getTodaysReminders(notifications);
             notifications.send_todays_reminders(foods);
         }
@@ -109,7 +110,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 //if in the DB
                 else{
-                    FoodItem item = manager.getEquipmentItem(result.getContents());
+                    FoodItem item = manager.getFoodItem(result.getContents());
                     String s= item.toString();
                     Intent i = new Intent(MainActivity.this,ViewActivity.class);
                     i.putExtra("item", s);

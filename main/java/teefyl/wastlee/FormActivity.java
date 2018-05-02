@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class FormActivity extends AppCompatActivity {
-    private EditText equipmentName;
+    private EditText foodName;
     private EditText expiry;
     private EditText reminder;
     Button createButton;
@@ -40,17 +40,18 @@ public class FormActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupActionBar();
-        equipmentName =(EditText) findViewById(R.id.foodText);
+        foodName =(EditText) findViewById(R.id.foodText);
         expiry =(EditText) findViewById(R.id.expiryDate);
         reminder= (EditText) findViewById(R.id.reminderDate);
         createButton = (Button)findViewById(R.id.addFood);
         String getName = getNameOnline(getIntent().getStringExtra("bID"));
-        equipmentName.setText(getName, TextView.BufferType.EDITABLE);
+        String getNameFiltered = stringFilter(getName);
+        foodName.setText(getNameFiltered, TextView.BufferType.EDITABLE);
 
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String equipmentString = equipmentName.getText().toString();
+                String foodString = foodName.getText().toString();
                 String expiryString = expiry.getText().toString();
                 String reminderString = reminder.getText().toString();
 
@@ -60,11 +61,11 @@ public class FormActivity extends AppCompatActivity {
                 Date date = new Date();
                 String todaysdate= new SimpleDateFormat("dd/MM/yyyy").format(date);
                 //test item to add
-                FoodItem e = new FoodItem(equipmentString,barcodeID, expiryString, reminderString, todaysdate);
+                FoodItem e = new FoodItem(foodString,barcodeID, expiryString, reminderString, todaysdate);
 
                 int daysToAdd = Integer.parseInt(reminderString);
                 String dateNew = addDates(todaysdate, daysToAdd);
-                MainActivity.manager.addEquipment(e);
+                MainActivity.manager.addFood(e);
                 Toast.makeText(getBaseContext(), "You will be reminded about this on "+dateNew , Toast.LENGTH_SHORT ).show();
 
                 Intent i = new Intent(FormActivity.this,FoodListActivity.class);
@@ -113,9 +114,28 @@ public class FormActivity extends AppCompatActivity {
             if (!url.startsWith("http")) {
                 continue; // Ads/news/etc.
             }
-            //System.out.println("Food name of food with barcode "+barcodeId+" : " + title);
         }
+
         return title;
+    }
+
+    private String stringFilter(String input)
+    {
+        String filteredString = input;
+        if(input.contains("Tesco"))
+            filteredString= filteredString.replace("Tesco","");
+        if(input.contains("tesco"))
+            filteredString= filteredString.replace("tesco","");
+        if(input.contains("eBay"))
+            filteredString= filteredString.replace("eBay","");
+        if(input.contains("CODECHECK.INFO"))
+            filteredString= filteredString.replace("CODECHECK.INFO","");
+        filteredString = filteredString.replaceAll("[^\\w\\s]", "");
+        // Filtering Out Special Symbols
+        filteredString = filteredString.replaceAll("\\d+(?:[.,]\\d+)*\\s*", "");
+        // Filtering Out Numbers
+
+        return filteredString;
     }
 
 

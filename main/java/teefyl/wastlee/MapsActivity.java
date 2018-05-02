@@ -38,6 +38,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
     }
 
 
@@ -119,7 +121,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             else{
 
                 locationManager.requestLocationUpdates(bestProvider,1000,0,this);
-                System.out.println("HEREEESSS YOUR LAT LNG"+latitude+longitude);
             }
 
     }
@@ -165,19 +166,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
             case MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-                    // permission was granted, yay! do the
-                    // task you need to do.
+                    // permission was granted, yay!
 
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    // permission denied, boo!
                 }
                 return;
             }
 
-            // other 'switch' lines to check for other
-            // permissions this app might request
         }
     }
 }

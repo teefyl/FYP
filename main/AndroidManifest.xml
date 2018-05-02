@@ -45,7 +45,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".FoodListActivity"
-            android:label="@string/title_activity_equipment_list"
+            android:label="@string/title_activity_food_list"
             android:theme="@style/AppTheme.NoActionBar" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -64,7 +64,6 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".TipOfTheDay" />
         <activity android:name=".ArticlesActivity" />
-        <activity android:name=".ShowPopUpWindow"></activity>
     </application>
 
 </manifest>

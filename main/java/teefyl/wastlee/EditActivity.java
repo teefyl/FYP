@@ -16,7 +16,7 @@ import java.util.Date;
 
 
 public class EditActivity extends AppCompatActivity {
-    private EditText equipmentName;
+    private EditText foodName;
     private EditText expiry;
     private EditText reminder;
     Button editButton;
@@ -32,9 +32,9 @@ public class EditActivity extends AppCompatActivity {
 
         ID = getIntent().getStringExtra("barcode");
 
-        FoodItem item = MainActivity.manager.getEquipmentItem(ID);
-        equipmentName =(EditText) findViewById(R.id.editFoodName);
-        equipmentName.setText(item.getName(),TextView.BufferType.EDITABLE);
+        FoodItem item = MainActivity.manager.getFoodItem(ID);
+        foodName =(EditText) findViewById(R.id.editFoodName);
+        foodName.setText(item.getName(),TextView.BufferType.EDITABLE);
         reminder= (EditText) findViewById(R.id.editReminder);
 
         expiry =(EditText) findViewById(R.id.editExpiryDate);
@@ -45,10 +45,10 @@ public class EditActivity extends AppCompatActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(equipmentName.getText()==null){
+                if(foodName.getText()==null){
                     Toast.makeText(EditActivity.this,"NOPE",Toast.LENGTH_LONG).show();
                 }
-                String equipmentString = equipmentName.getText().toString();
+                String foodString = foodName.getText().toString();
                 String expiryString = expiry.getText().toString();
                 String reminderString = reminder.getText().toString();
 
@@ -58,10 +58,10 @@ public class EditActivity extends AppCompatActivity {
                 Date date = new Date();
                 String todaysDate= new SimpleDateFormat("dd/MM/yyyy").format(date);
 
-                FoodItem e = new FoodItem(equipmentString, ID , expiryString, reminderString, todaysDate);
+                FoodItem e = new FoodItem(foodString, ID , expiryString, reminderString, todaysDate);
 
 
-                MainActivity.manager.editEquipment(e);
+                MainActivity.manager.editFood(e);
                 Intent i = new Intent(EditActivity.this, FoodListActivity.class);
                 i.putExtra("barcode",e.getBarcodeID());
                 startActivity(i);

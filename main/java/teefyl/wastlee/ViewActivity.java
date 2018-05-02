@@ -53,7 +53,7 @@ public class ViewActivity extends AppCompatActivity {
         }
         else if(v == delete){
             String result = stringDelete.substring(stringDelete.indexOf(":") + 2, stringDelete.indexOf('\n'));
-            MainActivity.manager.deleteEquipmentItem(result);
+            MainActivity.manager.deleteFoodItem(result);
             Intent intent = new Intent(this, FoodListActivity.class);
             startActivity(intent);
         }
